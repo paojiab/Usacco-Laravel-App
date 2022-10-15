@@ -1,3 +1,8 @@
+<!-- User is not priviledged to delete their own account 
+    Check features in config\jetstream.php
+-->
+
+
 <x-jet-action-section>
     <x-slot name="title">
         {{ __('Delete Account') }}
