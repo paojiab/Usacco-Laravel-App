@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\SavingProductsController;
 use App\Http\Controllers\Admin\SavingTransactionController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\LoansController;
-use App\Http\Controllers\Payment\FlutterwaveSavingsController;
+use App\Http\Controllers\Payment\DepositController;
 use App\Http\Controllers\Payment\WithdrawController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\SavingsController;
@@ -93,8 +93,8 @@ Route::post('admin/savings/withdraw',[SavingTransactionController::class, 'withd
 // End admin saving transaction
 
 // User transactions
-Route::post('/user/deposit', [FlutterwaveSavingsController::class, 'initialize'])->name('user.savings.deposit');
-Route::get('/deposit/callback/{account_id}/{amount}', [FlutterwaveSavingsController::class, 'callback'])->name('deposit.callback');
+Route::post('/user/deposit', [DepositController::class, 'initialize'])->name('user.savings.deposit');
+Route::get('/deposit/callback/{account_id}/{amount}', [DepositController::class, 'callback'])->name('deposit.callback');
 Route::post('/user/withdraw', [WithdrawController::class, 'withdraw'])->name('user.savings.withdraw');
 Route::get('/withdraw/callback/{id}/{account_id}', [WithdrawController::class, 'callback'])->name('withdraw.callback');
 // End user transactions

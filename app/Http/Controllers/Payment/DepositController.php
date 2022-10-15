@@ -7,7 +7,7 @@ use App\Models\SavingTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class FlutterwaveSavingsController extends Controller
+class DepositController extends Controller
 {
     public function initialize(Request $request)
     {
@@ -25,8 +25,10 @@ class FlutterwaveSavingsController extends Controller
 
         $account_id = auth()->user()->accounts()->first()->id;
 
+        $key = \config('rave.key');
+
         $response = Http::withHeaders([
-            'Authorization' => 'FLWSECK_TEST-673d75e9c4f74ca0e854d272f4fa2832-X'
+            'Authorization' =>  $key
         ])->post('https://api.flutterwave.com/v3/payments',[
             'tx_ref' => $tx_ref,
             'amount' => $amount,
@@ -42,11 +44,21 @@ class FlutterwaveSavingsController extends Controller
             ]
             ]);
 
+            
+
             $body = $response->object();
 
             $link = $body->data->link;
 
-            return redirect($link);
+            $status = $body->status;
+
+            if ($status == 'success') {
+                return redirect($link);
+            } else {
+                return redirect('dashboard')->with('status', 'Unknown Error');
+            }
+
+            
 
     }
 
@@ -81,7 +93,7 @@ class FlutterwaveSavingsController extends Controller
             SavingTransaction::create($txn_data);
 
             return redirect('dashboard')->with('status', 'Your deposit transaction has been cancelled with reference code: ' . $ref);
-        } else {
+        } else if ($status ==  'failed'){
             $txn_data['amount'] = $amount;
             $txn_data['account_id'] = $account_id;
             $txn_data['txn_type'] = 'deposit';
@@ -91,6 +103,8 @@ class FlutterwaveSavingsController extends Controller
             SavingTransaction::create($txn_data);
 
             return redirect('dashboard')->with('status', 'Your deposit transaction has failed with reference code: ' . $ref);
+        } else {
+            return redirect('dashboard')->with('status', 'Unknown error');
         }
     }
 }
