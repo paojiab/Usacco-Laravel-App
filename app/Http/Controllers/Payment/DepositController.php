@@ -50,12 +50,10 @@ class DepositController extends Controller
 
             $link = $body->data->link;
 
-            $status = $body->status;
-
-            if ($status == 'success') {
+            if ($response->successful()) {
                 return redirect($link);
             } else {
-                return redirect('dashboard')->with('status', 'Unknown Error');
+                return redirect('dashboard')->with('status', 'Unexpected Error');
             }
 
             

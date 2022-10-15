@@ -114,8 +114,8 @@
                 @csrf 
                 <div class="row">
                     <div class="col-lg-6">
-                      <label for="tel" class="form-label">Telephone(+256)</label>
-                        <input type="number" name="tel" id="" class="form-control" placeholder="E.g 7xxxxxxxx">
+                      <label for="tel" class="form-label">Telephone</label>
+                        <input type="number" name="tel" id="" class="form-control" placeholder="E.g 07xxxxxxxx">
                         @error('tel')
                             <p class="text-danger">{{$message}}</p>
                         @enderror

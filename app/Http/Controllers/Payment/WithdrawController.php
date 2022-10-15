@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CheckWithdrawStatus;
 use App\Models\SavingProduct;
 use App\Models\SavingTransaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -14,7 +16,7 @@ class WithdrawController extends Controller
     {
         $request->validate([
             'amount' => 'required',
-            'tel' => 'required|digits:9'
+            'tel' => 'required|digits:10'
         ]);
 
         $amount = $request->amount;
@@ -29,7 +31,7 @@ class WithdrawController extends Controller
 
         $fee = $fees->object()->data[0]->fee;
 
-        if ($fees->object()->status == 'success') {
+        if ($fees->successful()) {
 
             $total = $fee + $amount;
 
@@ -51,7 +53,7 @@ class WithdrawController extends Controller
                     'Authorization' => $key
                 ])->post('https://api.flutterwave.com/v3/transfers', [
                     "account_bank" => "MPS",
-                    "account_number" => '256' . $tel,
+                    "account_number" => $tel,
                     "amount" => $amount,
                     "currency" => "UGX",
                     "beneficiary_name" => "Paul Barasa",
@@ -74,7 +76,7 @@ class WithdrawController extends Controller
                 }
             }
         } else {
-            return redirect('dashboard')->with('status', 'Unknown Error');
+            return redirect('dashboard')->with('status', 'Unexpected Error');
         }
     }
 
@@ -96,44 +98,33 @@ class WithdrawController extends Controller
 
         $total = $amount + $fee;
 
-        if ($status == 'NEW') {
+        if($response->successful()) {
+
             $txn_data['amount'] = $amount;
             $txn_data['account_id'] = $account_id;
             $txn_data['txn_type'] = 'withdraw';
             $txn_data['reference'] = $ref;
             $txn_data['status'] = $status;
             $txn_data['fee'] = $fee;
+            $txn_data['created_at'] = Carbon::now();
 
-            SavingTransaction::create($txn_data)->account()->decrement('account_balance', $total);
+            $txn_id = SavingTransaction::insertGetId($txn_data);
+
+            SavingTransaction::find($txn_id)->account()->decrement('account_balance', $total);
+
+            $data = [
+                'id' => $id, 
+                'txn_id' => $txn_id,
+                'key' => $key,
+                'total' => $total
+            ];
+
+            CheckWithdrawStatus::dispatch($data)->delay(now()->addMinutes(10));
 
             return redirect('dashboard')->with('status', 'A new withdraw transaction has been initiated with reference code: ' . $ref);
-        } else if ($status == 'PENDING') {
-        } else if ($status == 'SUCCESSFUL') {
-            $txn_data['amount'] = $amount;
-            $txn_data['account_id'] = $account_id;
-            $txn_data['txn_type'] = 'withdraw';
-            $txn_data['reference'] = $ref;
-            $txn_data['status'] = $status;
-            $txn_data['fee'] = $fee;
-
-            SavingTransaction::create($txn_data);
-
-            return redirect('dashboard')->with('status', 'Withdraw completed successfully');
-        } else if ($status == 'FAILED') {
-            $txn_data['amount'] = $amount;
-            $txn_data['account_id'] = $account_id;
-            $txn_data['txn_type'] = 'withdraw';
-            $txn_data['reference'] = $ref;
-            $txn_data['status'] = $status;
-            $txn_data['fee'] = $fee;
-
-            SavingTransaction::create($txn_data)->account()->increment('account_balance', $total);
-
-            SavingTransaction::create($txn_data);
-
-            return redirect('dashboard')->with('status', 'Withdraw Failed');
-        } else {
-            return redirect('dashboard')->with('status', 'Unknown Error');
+        } 
+         else {
+            return redirect('dashboard')->with('status', 'Unexpected Error');
         }
     }
 }

@@ -10,7 +10,7 @@ class SavingTransaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'account_id', 'txn_type', 'amount', 'status', 'reference','fee'
+        'account_id', 'txn_type', 'amount', 'status', 'reference','fee', 'created_at'
     ];
 
     public function account() {
