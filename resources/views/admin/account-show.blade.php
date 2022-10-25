@@ -2,13 +2,13 @@
     <div class="container text-center mt-5">
       @if ($account->status == 'pending' || $account->status == 'rejected') 
      
-        <form action="/account/verify/{{$account->id}}" method="post">
+        <form action="/account/verify/{{$account->id}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-6">
             <label for="" class="form-label">Account type</label>
             <select name="acct_type" id="" class="form-select">
-                    <option value="{{$account->acct_type}}">{{$account->acct_type}}</option>
+                    <option value="{{$account->savingProduct->type}}">{{$account->savingProduct->type}}</option>
             </select>
             @error('acct_type')
                 <p class="text-danger">{{$message}}</p>
@@ -29,10 +29,8 @@
         @enderror
         </div>
         <div class="col-lg-6">
-            <label for="" class="form-label">Sex</label>
-            <select name="sex" id="" class="form-select">
-                <option value="{{$account->sex}}">{{$account->sex}}</option>
-            </select>
+            <label for="" class="form-label">Gender</label>
+            <input type="text" name="sex" value="{{$account->sex}}" id="" class="form-control">
             @error('sex')
             <p class="text-danger">{{$message}}</p>
         @enderror
@@ -109,35 +107,37 @@
             <p class="text-danger">{{$message}}</p>
         @enderror
         </div>
-        <div class="col-lg-6">
-            <img src="{{asset('storage/' . $account->id_front)}}" alt="" class="img-fluid">
+        
+            <div> <img src="{{asset('storage/' . $account->id_front)}}" alt="" class="img-fluid w-25"></div>
             <label for="" class="form-label">ID Front</label>
             <input type="file" name="id_front" id="" class="form-control" value="{{old('id_front')}}">
             @error('id_front')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        </div>
-        <div class="col-lg-6">
+        
             <label for="" class="form-label">ID Back</label>
+            <div> <img src="{{asset('storage/' . $account->id_back)}}" alt="" class="img-fluid w-25"></div>
             <input type="file" name="id_back" id="" class="form-control" value="{{old('id_back')}}">
             @error('id_back')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        </div>
-        <div class="col-lg-6">
+       
+       
             <label for="" class="form-label">Passport Photo</label>
+            <div> <img src="{{asset('storage/' . $account->passport_photo)}}" alt="" class="img-fluid w-25"></div>
             <input type="file" name="passport_photo" id="" class="form-control" value="{{old('passport_photo')}}">
             @error('passport_photo')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        </div>
-        <div class="col-lg-6">
+       
+      
             <label for="" class="form-label">Signature</label>
+            <div> <img src="{{asset('storage/' . $account->signature)}}" alt="" class="img-fluid w-25"></div>
             <input type="file" name="signature" id="" class="form-control" value="{{old('signature')}}">
             @error('signature')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        </div>
+       
         </div>
         <button type="submit" class="btn btn-warning mt-5 mb-4">Verify Account</button>
         </form>
@@ -148,13 +148,13 @@
         </form>
 
         @else 
-        <form action="/account/update/{{$account->id}}" method="post">
+        <form action="/account/update/{{$account->id}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-6">
             <label for="" class="form-label">Account type</label>
             <select name="acct_type" id="" class="form-select">
-                    <option value="{{$account->acct_type}}">{{$account->acct_type}}</option>
+                    <option value="{{$account->savingProduct->type}}">{{$account->savingProduct->type}}</option>
             </select>
             @error('acct_type')
                 <p class="text-danger">{{$message}}</p>
@@ -175,10 +175,8 @@
         @enderror
         </div>
         <div class="col-lg-6">
-            <label for="" class="form-label">Sex</label>
-            <select name="sex" id="" class="form-select">
-                <option value="{{$account->sex}}">{{$account->sex}}</option>
-            </select>
+            <label for="" class="form-label">Gender</label>
+            <input type="text" name="sex" value="{{$account->sex}}" id="" class="form-control">
             @error('sex')
             <p class="text-danger">{{$message}}</p>
         @enderror
@@ -255,35 +253,38 @@
             <p class="text-danger">{{$message}}</p>
         @enderror
         </div>
-        <div class="col-lg-6">
+        
             <label for="" class="form-label">ID Front</label>
-            <img src="{{asset('storage/id-fronts' . $account->id_front)}}" alt="" class="img-fluid">
+            <div> <img src="{{asset('storage/' . $account->id_front)}}" alt="" class="img-fluid w-25"></div>
             <input type="file" name="id_front" id="" class="form-control">
             @error('id_front')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        </div>
-        <div class="col-lg-6">
+        
+      
             <label for="" class="form-label">ID Back</label>
+            <div> <img src="{{asset('storage/' . $account->id_back)}}" alt="" class="img-fluid w-25"></div>
             <input type="file" name="id_back" id="" class="form-control">
             @error('id_back')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        </div>
-        <div class="col-lg-6">
+       
+       
             <label for="" class="form-label">Passport Photo</label>
+            <div> <img src="{{asset('storage/' . $account->passport_photo)}}" alt="" class="img-fluid w-25"></div>
             <input type="file" name="passport_photo" id="" class="form-control">
             @error('passport_photo')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        </div>
-        <div class="col-lg-6">
+        
+        
             <label for="" class="form-label">Signature</label>
+            <div> <img src="{{asset('storage/' . $account->signature)}}" alt="" class="img-fluid w-25"></div>
             <input type="file" name="signature" id="" class="form-control">
             @error('signature')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        </div>
+       
         </div>
             <button type="submit" class="btn btn-warning mt-5 mb-5" disabled>Verify Account</button>
             <button type="submit" class="btn btn-danger mt-5 mb-5" disabled>Reject Account</button>

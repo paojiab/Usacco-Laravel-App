@@ -22,7 +22,7 @@
     {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg" style="background-color: #4b7be5">
       <div class="container-fluid">
-        <a class="navbar-brand text-white" href="/">USACCO</a>
+        <a class="navbar-brand text-white" href="{{route('dashboard')}}">USACCO</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -54,9 +54,7 @@
           </ul>
 
           @auth
-          <a class="nav-link text-white me-3" href="#"
-          >Notifications <i class="bi bi-bell-fill"></i
-        ></a>
+          
         <div class="nav-item dropdown text-white">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               {{auth()->user()->name}} <i class="bi bi-person-fill"></i
@@ -74,23 +72,48 @@
           </ul>
         </>
       </div>
+      {{-- Notifications --}}
+      @unless(count(auth()->user()->unreadNotifications) == 0)
+      <div class="position-relative me-2">
+      <a class="nav-link text-white me-2 ms-3" href="{{route('notifications')}}"
+          >Notifications
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          @if(count(auth()->user()->unreadNotifications) > 99)) 
+            99+
+          @else 
+            {{count(auth()->user()->unreadNotifications)}}
+          @endif
+        </span>
+      </a>
+    </div>
+    @else
+    <a class="nav-link text-white me-2 ms-3" href="{{route('notifications')}}">Notifications</a>
+    @endunless
+    {{-- End notifications --}}
           @else
-          <a class="nav-link text-white" href="{{route('login')}}"
+          <a class="nav-link text-white me-3" href="{{route('login')}}"
           >Signin</a>
           @endauth
           
         </div>
+        
       </div>
     </nav>
     {{-- End Navbar --}}
 
     @if (session('status'))
-            <div class="container-fluid alert alert-success mt-3" role="alert">
+            <div class="container alert alert-success mt-3" role="alert">
                 {{ session('status') }}
             </div>
         @endif
 
     {{$slot}}
+
+    <footer class="text-white p-2 text-center fixed-bottom" style="background-color: #4b7be5;">
+      &copy; USACCO  <script>
+        document.write(new Date().getFullYear())
+    </script>. All rights reserved.
+    </footer>
 
     <!--Bootstrap JavaScript Bundle with Popper -->
     <script

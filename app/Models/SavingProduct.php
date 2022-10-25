@@ -13,7 +13,7 @@ class SavingProduct extends Model
         'type', 'withdraw_charge', 'closing_charge','minimum_balance'
     ];
 
-    // public function accounts() {
-    //     return $this->hasMany(Account::class);
-    // }
+    public function accounts() {
+        return $this->hasMany(Account::class,'saving_product_id');
+    }
 }

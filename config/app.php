@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Kampala',
 
     /*
     |--------------------------------------------------------------------------
@@ -197,6 +197,9 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 
+        // dompdf provider
+        \Barryvdh\DomPDF\ServiceProvider::class
+
     ],
 
     /*
@@ -212,6 +215,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+
+        // dompdf alias
+        'PDF' => \Barryvdh\DomPDF\Facade::class
     ])->toArray(),
 
 ];

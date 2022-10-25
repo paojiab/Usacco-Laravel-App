@@ -1,7 +1,7 @@
-<x-main>
+<x-admin>
     <div class="container text-center mt-5">
         @unless (count($products)==0)
-        <form action="{{route('accounts.store')}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('account.create',$user_id)}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-6">
@@ -144,7 +144,16 @@
             <p class="text-danger">{{$message}}</p>
         @enderror
         </div>
+        <div class="col-lg-6">
+            <label for="" class="form-label">Status</label>
+            <select name="status" class="form-select">
+                <option value="">...</option>
+                <option value="pending">pending</option>
+                <option value="verified">verified</option>
+            </select>
         </div>
+        </div>
+        
             <button type="submit" class="btn btn-primary mt-5 mb-5">Open Account</button>
         </form>
 
@@ -152,4 +161,4 @@
                 <option value="">No accounts can be created at the moment</option>
                 @endunless
     </div>
-</x-main>
+</x-admin>

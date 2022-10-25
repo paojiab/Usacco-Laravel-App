@@ -1,14 +1,16 @@
 <x-admin>
     <div class="container-fluid mt-3">
         <h4>SAVING PRODUCTS</h4>
-        <button class="btn btn-primary mt-2 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Create Saving Product</button>
+        <button class="btn btn-primary btn-sm mt-2 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Create Saving Product</button>
         @unless (count($products) == 0)
+        <div class="table-responsive">
         <table class="table">
             <thead>
               <tr>
                 <th scope="col">Account Type</th>
                 <th scope="col">Minimum Balance</th>
                 <th scope="col">Withdraw Charge</th>
+                <th scope="col">Transfer Fee</th>
                 <th scope="col">Closing Charge</th>
                 <th scope="col">Delete</th>
               </tr>
@@ -19,17 +21,19 @@
                     <th scope="row">{{$product->type}}</th>
                     <td>{{number_format($product->minimum_balance,2)}}</td>
                     <td>{{$product->withdraw_charge}}%</td>
+                    <td>{{$product->transfer_fee}}%</td>
                     <td>{{$product->closing_charge}}%</td>
                     <td>
                         <form action="/saving-product/delete/{{$product->id}}" method="post">
                             @csrf
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
                   </tr>
                 @endforeach
             </tbody>
           </table>
+        </div>
           @else
         <p class="pt-2">No saving products available</p>
         @endunless
