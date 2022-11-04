@@ -22,15 +22,12 @@
                 @error('account_no')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
-                <div class="row">
-                    <div class="col-lg-6">
                         <label for="amount" class="form-label">Amount</label>
                         <input type="number" name="amount" id="" class="form-control">
                         @error('amount')
                             <p class="text-danger">{{$message}}</p>
                         @enderror
-                    </div>
-                </div>
+                    
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -57,15 +54,12 @@
             @error('account_no')
                 <p class="text-danger">{{$message}}</p>
             @enderror
-            <div class="row">
-                <div class="col-lg-6">
                     <label for="amount" class="form-label">Amount</label>
                     <input type="number" name="amount" id="" class="form-control">
                     @error('amount')
                         <p class="text-danger">{{$message}}</p>
                     @enderror
-                </div>
-            </div>
+               
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -88,34 +82,32 @@
           <form action="{{route('savings.transfer',$account->id)}}" method="post">
             @csrf 
             <div class="row">
-                <div class="col-lg-6">
+                
                     <label for="account_no" class="form-label">From</label>
             <input name="account_no" type="text" readonly value="{{$account->acct_no}}" class="form-control" placeholder="Enter account number">
             @error('account_no')
                 <p class="text-danger">{{$message}}</p>
             @enderror
-                </div>
+                
 
-                <div class="col-lg-6">
+                
                     <label for="receive" class="form-label">To</label>
             <input name="receive" type="text" class="form-control" placeholder="Enter account number">
             @error('receive')
                 <p class="text-danger">{{$message}}</p>
             @enderror
-                </div>
+               
             </div>
             
             
-            <div class="row">
-                <div class="col-lg-6">
+           
+                
                     <label for="amount" class="form-label">Amount</label>
                     <input type="number" name="amount" id="" class="form-control">
                     @error('amount')
                         <p class="text-danger">{{$message}}</p>
                     @enderror
-                </div>
-            </div>
-        </div>
+               
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-outline-success">Transfer</button>

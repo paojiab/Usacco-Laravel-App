@@ -53,14 +53,15 @@
                     @error('type')
                         <p class="text-danger">{{$message}}</p>
                     @enderror
+                    
+                    <label for="minimum_balance" class="form-label">Minimum balance</label>
+                    <input type="number" name="minimum_balance" id="" class="form-control">
+                    @error('minimum_balance')
+                        <p class="text-danger">{{$message}}</p>
+                    @enderror
+                
                     <div class="row">
-                        <div class="col-lg-6">
-                            <label for="minimum_balance" class="form-label">Minimum balance</label>
-                            <input type="number" name="minimum_balance" id="" class="form-control">
-                            @error('minimum_balance')
-                                <p class="text-danger">{{$message}}</p>
-                            @enderror
-                        </div>
+                        
                         <div class="col-lg-6">
                             <label for="withdraw_charge" class="form-label">Withdraw Charge (%)</label>
                             <input type="number" name="withdraw_charge" id="" class="form-control" step="0.01" min="0" max="100">

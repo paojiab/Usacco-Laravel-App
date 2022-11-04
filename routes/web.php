@@ -7,15 +7,18 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SavingProductsController;
 use App\Http\Controllers\Admin\SavingTransactionController;
+use App\Http\Controllers\Admin\ShareController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\LoansController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Payment\DepositController;
 use App\Http\Controllers\Payment\WithdrawController;
 use App\Http\Controllers\Pdf\SavingsStatController;
+use App\Http\Controllers\Pdf\WalletTransactionsController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\SavingsController;
 use App\Http\Controllers\SharesController;
+use App\Http\Controllers\WalletController;
 use App\Http\Controllers\WelfareController;
 
 /*
@@ -60,7 +63,7 @@ Route::middleware([
     Route::get('/dashboard', [SavingsController::class, 'index'])->name('dashboard');
 });
 
-Route::get('/savings/{id}', [SavingsController::class, 'show'])->name('savings');
+Route::get('/savings/{id}', [SavingsController::class, 'show'])->name('savings')->middleware('auth');
 
 Route::get('/shares', [SharesController::class, 'index'])->name('shares')->middleware('auth');
 
@@ -70,11 +73,13 @@ Route::get('/welfare', [WelfareController::class, 'index'])->name('welfare')->mi
 
 Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio')->middleware('auth');
 
+Route::get('/wallet', [WalletController::class, 'index'])->name('wallet')->middleware('auth');
+
 Route::get('accounts/create', [AccountController::class, 'index'])->name('accounts.create')->middleware('auth');
 
 Route::post('accounts/store', [AccountController::class, 'store'])->name('accounts.store');
 
-Route::get('notifications',[NotificationsController::class,'index'])->name('notifications');
+Route::get('notifications',[NotificationsController::class,'index'])->name('notifications')->middleware('auth');
 Route::post('notifications/clear-all',[NotificationsController::class,'clearAll'])->name('clear.all');
 Route::post('notifications/read-all',[NotificationsController::class,'readAll'])->name('read.all');
 Route::post('mark/read/{id}',[NotificationsController::class,'markRead'])->name('mark.read');
@@ -107,13 +112,11 @@ Route::post('admin/savings/transfer/{id}',[SavingTransactionController::class, '
 
 // User transactions
 Route::post('/user/deposit', [DepositController::class, 'initialize'])->name('user.savings.deposit');
-Route::get('/deposit/callback/{account_id}', [DepositController::class, 'callback'])->name('deposit.callback');
 Route::post('/user/withdraw', [WithdrawController::class, 'withdraw'])->name('user.savings.withdraw');
-Route::get('/withdraw/callback/{id}/{account_id}', [WithdrawController::class, 'callback'])->name('withdraw.callback');
-Route::get('/savings/stat/{id}', [SavingsStatController::class, 'convert'])->name('savings.stat');
-Route::get('/savings/month/{id}', [SavingsStatController::class, 'month'])->name('savings.month');
-Route::get('/savings/quarter/{id}', [SavingsStatController::class, 'quarter'])->name('savings.quarter');
-Route::get('/savings/half/{id}', [SavingsStatController::class, 'half'])->name('savings.half');
+Route::get('/savings/stat/{id}', [SavingsStatController::class, 'convert'])->name('savings.stat')->middleware('auth');
+Route::get('/savings/month/{id}', [SavingsStatController::class, 'month'])->name('savings.month')->middleware('auth');
+Route::get('/savings/quarter/{id}', [SavingsStatController::class, 'quarter'])->name('savings.quarter')->middleware('auth');
+Route::get('/savings/half/{id}', [SavingsStatController::class, 'half'])->name('savings.half')->middleware('auth');
 // End user transactions
 
 // Admin users
@@ -131,3 +134,26 @@ Route::post('admin/users/profile/store/{id}',[ProfileController::class,'store'])
 Route::get('admin/users/closed/{id}',[ProfileController::class,'closed'])->name('closed');
 Route::post('admin/users/account/restore/{id}',[ProfileController::class,'restore'])->name('restore');
 // End admin users
+
+// Admin Shares
+Route::get('share/products',[ShareController::class, 'index'])->middleware('admin')->name('share.products');
+Route::post('share/products/store',[ShareController::class,'store'])->name('share.store');
+// End admin shares
+
+// user shares
+Route::post('shares/buy',[SharesController::class, 'buy'])->name('buy');
+Route::get('shares/show/{id}',[SharesController::class, 'show'])->name('share.show')->middleware('auth');
+Route::post('shares/sell',[SharesController::class, 'sell'])->name('sell');
+// end user shares
+
+// wallet
+
+Route::post('/wallet/deposit', [WalletController::class, 'deposit'])->name('wallet.deposit');
+Route::get('/wallet/deposit/callback', [WalletController::class, 'depositCallback'])->name('wallet.deposit.callback')->middleware('auth');
+Route::post('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
+Route::get('/wallet/withdraw/callback/{id}', [WalletController::class, 'withdrawCallback'])->name('wallet.withdraw.callback')->middleware('auth');
+Route::get('/wallet/statement', [WalletTransactionsController::class, 'convert'])->name('wallet.statement')->middleware('auth');
+Route::get('/wallet/month', [WalletTransactionsController::class, 'month'])->name('wallet.month')->middleware('auth');
+Route::get('/wallet/quarter', [WalletTransactionsController::class, 'quarter'])->name('wallet.quarter')->middleware('auth');
+Route::get('/wallet/half', [WalletTransactionsController::class, 'half'])->name('wallet.half')->middleware('auth');
+// end user wallet

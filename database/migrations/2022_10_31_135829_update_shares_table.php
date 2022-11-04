@@ -13,7 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::drop('admins');
+        Schema::table('shares', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+        });
     }
 
     /**
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down()
     {
-        
+        //
     }
 };

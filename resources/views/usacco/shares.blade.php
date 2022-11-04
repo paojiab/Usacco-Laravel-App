@@ -1,60 +1,81 @@
 <x-main>
     <section class="container mt-5">
-        <div class="card-element w-75 d-block m-auto mb-5"  style="position: relative;">
-          <div class="card" style="background-color: #4b7be5">
-            <div class="card-body text-white">
-              <p>Shares Balance</p>  
-            </div>
-          </div>
-  
-          <div class="card w-100" style="position: absolute; top: 50px; border-radius: 20px;">
-              <div class="card-body">
-                <h5>UGX 100,000,000</h5>
-              </div>
-            </div>
-        </div>
-  
-        <div class="row pt-4 text-center">
-        <div class="col-lg-6">
-          <a href="" class="btn btn-outline-primary mb-3">Sell</a>
-        </div>
-  
-        <div class="col-lg-6">
-          <a href="" class="btn btn-primary mb-3">Buy</a>
-        </div>
-      </div>
-  
-      <div class="text-center mt-3">
-          <h3 class="pb-3" style="display: inline;">Shares Statement</h3>
-          <a href="">Download</a>
-          <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Tranaction</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Balance</th>
-                </tr>
-              </thead>
+      <div>
+            <table class="table-responsive table">
               <tbody>
                 <tr>
-                  <th scope="row">1</th>
-                  <td>Sell</td>
-                  <td>50,000,000</td>
-                  <td>100,000,000</td>
+                  <th>PORTFOLIO</th>
+                  <th>PRICE</th>
+                  <th>SHARES</th>
+                  <th>AMOUNT</th>
+                  <th>ACTION</th>
                 </tr>
+                @foreach ($products as $product)
                 <tr>
-                  <th scope="row">2</th>
-                  <td>Buy</td>
-                  <td>150,000,000</td>
-                  <td>150,000,000</td>
+                  <th scope="row">{{$product->name}}</th>
+                  <td>UGX {{number_format($product->price,2)}}</td>
+                  <td>{{$product->shares()->where('user_id',auth()->id())->get()->sum('shares')}}</td>
+                  <td>UGX {{number_format($product->shares()->where('user_id', auth()->id())->get()->sum('shares') * $product->price, 2)}}</td>
+                  <td>
+                   <a href="{{route('share.show', $product->id)}}" class="btn btn-primary"> <i class="bi bi-chevron-right"></i></a>
+                  </td>
                 </tr>
-               
+                @endforeach
               </tbody>
             </table>
-      </div>
-  
+            <div class="d-flex mb-5">
+              {!! $products->links() !!}
+          </div>
+        </div>
+    
+     
+
+      <div class="text-center mt-3">
+        <h3 class="pb-3" style="display: inline;">Shares Statement</h3>
+        @unless (count($txns)==0)
         
-        
-      </section>
+        <div class="table-responsive">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Share Name</th>
+                <th scope="col">Transaction</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Fee</th>
+              </tr>
+            </thead>
+            <tbody>
+             
+              @foreach ($txns as $txn)
+              <tr>
+                <th scope="row">{{$txn->created_at}}</th>
+                <td>{{$txn->shareProduct->name}}</td>
+                
+                @if ($txn->shares>0)
+                <td>Bought</td>
+                <td>{{$txn->shares}}</td>
+                <td>{{number_format($txn->shares * $txn->shareProduct->price,2)}}</td>
+                @else
+                <td>Sold</td>
+                <td>{{$txn->shares * -1}}</td>
+                <td>{{number_format(($txn->shares * $txn->shareProduct->price) *-1,2)}}</td>
+                @endif
+                <td>{{number_format($txn->shareProduct->selling_fee,2)}}</td>
+              </tr>
+              @endforeach
+              @else 
+              <p class="fst-italic pt-2">No transactions to show</p>
+              @endunless
+             
+             
+            </tbody>
+          </table>
+        </div>
+          <div class="d-flex mb-5">
+            {!! $txns->links() !!}
+        </div>
+    </div>
+  </section>
 </x-main>

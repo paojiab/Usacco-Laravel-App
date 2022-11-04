@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SavingTransaction extends Model
+class Share extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'account_id', 'txn_type', 'amount','fee', 'balance', 'created_at'
+        'share_product_id', 'user_id', 'shares'
     ];
 
-    public function account() {
-        return $this->belongsTo(Account::class);
+    public function shareProduct(){
+        return $this->belongsTo(ShareProduct::class);
     }
 }

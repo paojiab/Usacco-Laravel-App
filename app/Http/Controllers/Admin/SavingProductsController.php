@@ -16,7 +16,7 @@ class SavingProductsController extends Controller
     public function store(Request $request){
         $fields = $request->validate([
             'type' => ['required','unique:saving_products,type'],
-            'minimum_balance' => 'required',
+            'selling_fee' => 'required',
             'closing_charge' => 'required',
             'withdraw_charge' => 'required'
         ]);

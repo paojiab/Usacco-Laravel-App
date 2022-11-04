@@ -1,7 +1,7 @@
 <x-admin>
     <div class="container-fluid">
       @if (count($accounts) == 0)
-      <div class="alert alert-dark" role="alert">
+      <div class="alert alert-dark mt-5" role="alert">
         Member has no accounts!
       </div>
       @else

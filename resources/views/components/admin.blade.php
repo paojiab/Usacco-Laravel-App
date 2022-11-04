@@ -128,6 +128,12 @@
               Saving Products
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('share.products')}}">
+              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+              Share Products
+            </a>
+          </li>
           
         </ul>
 

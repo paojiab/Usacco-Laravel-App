@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\SavingTransaction;
+use App\Models\WalletTransaction;
 use App\Models\User;
 use App\Notifications\WithdrawNotification;
 use Illuminate\Bus\Queueable;
@@ -49,7 +49,7 @@ class CheckWithdrawStatus implements ShouldQueue
                 $total = $amount + $fee;
                 $ref = $response->object()->data->reference;
                 $user = $this->data['user'];
-                $account_balance = $this->data['account_balance'];
+                $wallet_balance = $this->data['wallet_balance'];
                 $txn_data = [
                     'amount' => $amount,
                     'reference' => $ref,
@@ -57,27 +57,27 @@ class CheckWithdrawStatus implements ShouldQueue
                 ];
         
                 if ($status == 'SUCCESSFUL') {
-                    SavingTransaction::find($this->data['txn_id'])->update([
+                    WalletTransaction::find($this->data['txn_id'])->update([
                         'status' => $status,
                         'amount' => $amount,
                         'ref' =>  $ref,
                         'fee' => $fee,
-                        'balance' => $account_balance - $amount
+                        'balance' => $wallet_balance - $amount
                     ]);
         
                     $user->notify(new WithdrawNotification($txn_data));
                 } else if ($status == 'FAILED') {
-                    SavingTransaction::find($this->data['txn_id'])->update([
+                    WalletTransaction::find($this->data['txn_id'])->update([
                         'status' => $status,
                         'amount' => $amount,
                         'ref' =>  $ref,
                         'fee' => $fee,
-                        'balance' => $account_balance + $amount
+                        'balance' => $wallet_balance + $amount
                     ])->increment('account_balance', $total);
         
                     $user->notify(new WithdrawNotification($txn_data));
                 } else if ($status == 'PENDING') {
-                    SavingTransaction::find($this->data['txn_id'])->update([
+                    WalletTransaction::find($this->data['txn_id'])->update([
                         'status' => $status,
                         'amount' => $amount,
                         'ref' =>  $ref,

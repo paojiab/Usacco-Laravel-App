@@ -65,8 +65,6 @@
                   <th scope="col">Transaction</th>
                   <th scope="col">Amount</th>
                   <th scope="col">Fee</th>
-                  <th scope="col">Reference</th>
-                  <th scope="col">Status</th>
                   <th scope="col">Balance</th>
                 </tr>
               </thead>
@@ -78,8 +76,6 @@
                   <td>{{$txn->txn_type}}</td>
                   <td>{{number_format($txn->amount,2)}}</td>
                   <td>{{number_format($txn->fee,2)}}</td>
-                  <td>{{$txn->reference}}</td>
-                  <td>{{$txn->status}}</td>
                   <td>{{number_format($txn->balance,2)}}</td>
                 </tr>
                 @endforeach
@@ -106,16 +102,21 @@
             <div class="modal-body">
               <form action="{{route('user.savings.deposit')}}" method="post">
                 @csrf 
-                <div class="row">
-                    <div class="col-lg-6">
+               
+                    
                         <input type="hidden" name="account_id" value="{{$account->id}}">
+                        <label for="wallet_balance" class="form-label">Wallet Balance</label>
+                <input type="text" readonly name="wallet_balance" value="UGX {{number_format(auth()->user()->wallet,2)}}" class="form-control">
+                @error('wallet_balance')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
                         <label for="amount" class="form-label">Amount</label>
                         <input type="number" name="amount" id="" class="form-control">
                         @error('amount')
                             <p class="text-danger">{{$message}}</p>
                         @enderror
-                    </div>
-                </div>
+                   
+                
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -130,27 +131,21 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Mobile Money Withdraw</h5>
+              <h5 class="modal-title">Wallet Withdraw</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <form action="{{route('user.savings.withdraw')}}" method="post">
                 @csrf 
-                <div class="row">
-                    <div class="col-lg-6">
+                
                         <input type="hidden" name="account_id" value="{{$account->id}}">
-                      <label for="tel" class="form-label">Telephone</label>
-                        <input type="number" name="tel" id="" class="form-control" placeholder="E.g 07xxxxxxxx">
-                        @error('tel')
-                            <p class="text-danger">{{$message}}</p>
-                        @enderror
                         <label for="amount" class="form-label">Amount</label>
                         <input type="number" name="amount" id="" class="form-control">
                         @error('amount')
                             <p class="text-danger">{{$message}}</p>
                         @enderror
-                    </div>
-                </div>
+                    
+               
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

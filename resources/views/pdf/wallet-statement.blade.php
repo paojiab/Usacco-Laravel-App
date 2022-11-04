@@ -60,12 +60,12 @@ content: "";
 
 <div class="row">
   <div class="column-x">
-    <h4>{{$account->savingProduct->type}} Statement</h4>
+    <h4>Wallet Statement</h4>
 <p class="grey">Details as on {{$now}}</p>
   </div>
   <div class="column-x right">
-    <h4>Account Number: {{$account->acct_no}}</h4>
-<p class="grey">Account Name: {{$account->first_name . ' ' . $account->last_name}}</p>
+    <h4>User Number: {{'US000' . auth()->id()}}</h4>
+<p class="grey">User Name: {{auth()->user()->name}}</p>
   </div>
 </div>
 
