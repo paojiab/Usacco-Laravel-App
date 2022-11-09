@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Share extends Model
+class LoanProduct extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'share_product_id', 'user_id', 'shares','amount'
+        'name',
+        'interest',
+        'loan_fee',
+        'minimum',
+        'maximum',
+        'loan_duration'
     ];
-
-    public function shareProduct(){
-        return $this->belongsTo(ShareProduct::class);
-    }
 }

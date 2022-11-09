@@ -139,6 +139,8 @@
                 @csrf 
                 
                         <input type="hidden" name="account_id" value="{{$account->id}}">
+                        <label for="balance" class="form-label">Savings Actual Balance</label>
+                        <input readonly name="balance" value="UGX {{number_format($actual_bal,2)}}" class="form-control">
                         <label for="amount" class="form-label">Amount</label>
                         <input type="number" name="amount" id="" class="form-control">
                         @error('amount')

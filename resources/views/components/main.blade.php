@@ -46,14 +46,12 @@
               <a class="nav-link text-white" href="{{route('shares')}}">Shares</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white" href="{{route('loans')}}">Loans</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link text-white" href="{{route('welfare')}}">Welfare</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white" href="{{route('portfolio')}}">Portfolio</a>
+              <a class="nav-link text-white" href="{{route('loans')}}">Loans</a>
             </li>
+          
           </ul>
 
           @auth

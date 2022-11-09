@@ -134,6 +134,25 @@
               Share Products
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('welfare.products')}}">
+              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+              Welfare Product
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('loan.products')}}">
+              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+              Loan Products
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.loans')}}">
+              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+              Loans
+            </a>
+          </li>
           
         </ul>
 

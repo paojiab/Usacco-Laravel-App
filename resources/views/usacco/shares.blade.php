@@ -1,5 +1,19 @@
 <x-main>
     <section class="container mt-5">
+      <div class="card-element w-75 d-block m-auto mb-5"  style="position: relative;">
+        <div class="card" style="background-color: #4b7be5">
+          <div class="card-body text-white">
+            <p>Total Share Amount</p>  
+          </div>
+        </div>
+
+        <div class="card w-100" style="position: absolute; top: 50px; border-radius: 20px;">
+            <div class="card-body">
+              <h5>UGX {{number_format($worth,2)}}</h5>
+            </div>
+          </div>
+      </div>
+      <br><br>
       <div>
             <table class="table-responsive table">
               <tbody>
@@ -15,7 +29,7 @@
                   <th scope="row">{{$product->name}}</th>
                   <td>UGX {{number_format($product->price,2)}}</td>
                   <td>{{$product->shares()->where('user_id',auth()->id())->get()->sum('shares')}}</td>
-                  <td>UGX {{number_format($product->shares()->where('user_id', auth()->id())->get()->sum('shares') * $product->price, 2)}}</td>
+                  <td>UGX {{number_format($product->shares()->where('user_id', auth()->id())->get()->sum('amount'), 2)}}</td>
                   <td>
                    <a href="{{route('share.show', $product->id)}}" class="btn btn-primary"> <i class="bi bi-chevron-right"></i></a>
                   </td>
@@ -31,7 +45,7 @@
      
 
       <div class="text-center mt-3">
-        <h3 class="pb-3" style="display: inline;">Shares Statement</h3>
+        <h3 class="pb-3" style="display: inline;">Share Transactions</h3>
         @unless (count($txns)==0)
         
         <div class="table-responsive">

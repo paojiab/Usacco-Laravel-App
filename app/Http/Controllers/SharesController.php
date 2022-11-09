@@ -12,7 +12,8 @@ class SharesController extends Controller
     public function index() {
         $products = ShareProduct::latest()->paginate(5);
         $txns = Share::where('user_id', auth()->id())->latest()->paginate(10);
-        return view('usacco/shares',compact('products','txns'));
+        $worth = Share::where('user_id',auth()->id())->get()->sum('amount');
+        return view('usacco/shares',compact('products','txns','worth'));
     }
 
     public function show($id){
@@ -40,6 +41,7 @@ class SharesController extends Controller
             return redirect()->back()->with('status','You should buy atleast one share');
         } else{
             $fields['shares'] = $amount/$price;
+            $fields['amount'] = $amount; 
             $fields['user_id'] = $user_id;  
              Share::create($fields);
 
@@ -69,12 +71,15 @@ class SharesController extends Controller
         $total = $amount + $fee;
         $share_balance = $product->shares()->where('user_id',$user_id)->sum('shares');
         $worth = $product->price * $share_balance;
-        if ($total > $worth || $amount <=0) {
+        if ($total > $worth) {
             return redirect()->back()->with('status', 'You do not have enough shares to complete the transaction');
+        } else if ($amount<=0) {
+            return redirect()->back()->with('status', 'Amount must be greater than zero!');
         } else {
             $fields['share_product_id'] = $share_id;
             $fields['shares'] = -($total/$product->price);
             $fields['user_id'] = $user_id;  
+            $fields['amount'] = -($amount);
              Share::create($fields);
 
              $txn_data['amount'] = $amount;

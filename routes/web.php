@@ -4,11 +4,14 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AccountsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\LoanController;
+use App\Http\Controllers\Admin\LoanProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SavingProductsController;
 use App\Http\Controllers\Admin\SavingTransactionController;
 use App\Http\Controllers\Admin\ShareController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\WelfareProductController;
 use App\Http\Controllers\LoansController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Payment\DepositController;
@@ -157,3 +160,30 @@ Route::get('/wallet/month', [WalletTransactionsController::class, 'month'])->nam
 Route::get('/wallet/quarter', [WalletTransactionsController::class, 'quarter'])->name('wallet.quarter')->middleware('auth');
 Route::get('/wallet/half', [WalletTransactionsController::class, 'half'])->name('wallet.half')->middleware('auth');
 // end user wallet
+
+// Admin welfare Products
+Route::get('welfare/products',[WelfareProductController::class, 'index'])->middleware('admin')->name('welfare.products');
+Route::post('welfare/products/store',[WelfareProductController::class,'store'])->name('welfare.store');
+// End admin welfare products
+
+// User welfare
+Route::post('/welfare/contribute', [WelfareController::class, 'contribute'])->name('contribute');
+// end user wallfare
+
+// Admin loan products
+Route::get('admin/loan/products', [LoanProductController::class, 'index'])->name('loan.products');
+Route::post('admin/loan/products',[LoanProductController::class, 'store'])->name('loan.products.store');
+// end admin loan products
+
+// User loans
+Route::post('loan/store',[LoansController::class, 'store'])->name('loan.store');
+Route::get('show/loan/{id}',[LoansController::class, 'show'])->name('loan.show');
+Route::post('loan/repay/{id}',[LoansController::class, 'repay'])->name('loan.repay');
+// End user loans
+
+// admin loans
+Route::get('admin/loans', [LoanController::class,'index'])->name('admin.loans');
+Route::get('admin/loans/edit/{id}', [LoanController::class,'edit'])->name('loan.review');
+Route::post('admin/loan/store/{id}', [LoanController::class,'store'])->name('loan.approve');
+Route::post('admin/loan/update/{id}', [LoanController::class,'update'])->name('loan.restructure');
+// end admin loans
