@@ -153,6 +153,12 @@
               Loans
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.loans')}}">
+              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+              Collateral Register
+            </a>
+          </li>
           
         </ul>
 
@@ -169,16 +175,28 @@
                  Notifications
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{route('admin.finances')}}">
+                  <span data-feather="file-text" class="align-text-bottom"></span>
+                 Accounting
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{route('monthly.cashflow')}}">
+                  <span data-feather="file-text" class="align-text-bottom"></span>
+                 Cashflow
+                </a>
+              </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{route('admin.statistics')}}">
               <span data-feather="file-text" class="align-text-bottom"></span>
-              Messages
+              Statistics
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="file-text" class="align-text-bottom"></span>
-              Tickets
+              Charts
             </a>
           </li>
           <li class="nav-item">

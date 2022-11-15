@@ -4,12 +4,14 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AccountsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\LoanProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SavingProductsController;
 use App\Http\Controllers\Admin\SavingTransactionController;
 use App\Http\Controllers\Admin\ShareController;
+use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\WelfareProductController;
 use App\Http\Controllers\LoansController;
@@ -182,8 +184,17 @@ Route::post('loan/repay/{id}',[LoansController::class, 'repay'])->name('loan.rep
 // End user loans
 
 // admin loans
-Route::get('admin/loans', [LoanController::class,'index'])->name('admin.loans');
-Route::get('admin/loans/edit/{id}', [LoanController::class,'edit'])->name('loan.review');
+Route::get('admin/loans', [LoanController::class,'index'])->name('admin.loans')->middleware('admin');
+Route::get('admin/loans/edit/{id}', [LoanController::class,'edit'])->name('loan.review')->middleware('admin');
 Route::post('admin/loan/store/{id}', [LoanController::class,'store'])->name('loan.approve');
 Route::post('admin/loan/update/{id}', [LoanController::class,'update'])->name('loan.restructure');
 // end admin loans
+
+// Admin finances
+Route::get('admin/finances',[FinanceController::class,'index'])->name('admin.finances')->middleware('admin');
+Route::get('monthly/cashflow',[FinanceController::class,'monthlyCashflow'])->name('monthly.cashflow');
+// end admin finances
+
+// Admin statistics
+Route::get('admin/statistics',[StatisticController::class,'index'])->name('admin.statistics')->middleware('admin');
+// end admin statistics
