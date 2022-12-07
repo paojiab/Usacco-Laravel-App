@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AccountsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\LoanProductController;
@@ -193,8 +194,24 @@ Route::post('admin/loan/update/{id}', [LoanController::class,'update'])->name('l
 // Admin finances
 Route::get('admin/finances',[FinanceController::class,'index'])->name('admin.finances')->middleware('admin');
 Route::get('monthly/cashflow',[FinanceController::class,'monthlyCashflow'])->name('monthly.cashflow');
+Route::get('admin/profit/loss',[FinanceController::class,'profitLoss'])->middleware('admin')->name('profit.loss');
+Route::get('admin/balance-sheet',[FinanceController::class,'balanceSheet'])->middleware('admin')->name('balance.sheet');
+
 // end admin finances
 
 // Admin statistics
 Route::get('admin/statistics',[StatisticController::class,'index'])->name('admin.statistics')->middleware('admin');
 // end admin statistics
+
+// Admin dashboard
+Route::post('dashboard/deposit',[DashboardController::class,'deposit'])->name('dashboard.deposit')->middleware('admin');
+Route::post('dashboard/withdraw',[DashboardController::class,'withdraw'])->name('dashboard.withdraw')->middleware('admin');
+Route::post('dashboard/user',[DashboardController::class,'user'])->name('dashboard.user')->middleware('admin');
+Route::post('dashboard/account',[DashboardController::class,'account'])->name('dashboard.account')->middleware('admin');
+Route::get('dashboard/review',[DashboardController::class,'review'])->name('dashboard.review')->middleware('admin');
+Route::get('dashboard/loans/pending',[DashboardController::class,'loanPending'])->name('loans.pending')->middleware('admin');
+Route::post('dashboard/shares',[DashboardController::class,'shares'])->name('dashboard.shares')->middleware('admin');
+Route::post('dashboard/welfare',[DashboardController::class,'welfare'])->name('dashboard.welfare')->middleware('admin');
+Route::post('dashboard/loans',[DashboardController::class,'newLoan'])->name('dashboard.loans')->middleware('admin');
+Route::post('dashboard/notifications',[DashboardController::class,'notification'])->name('dashboard.notification')->middleware('admin');
+// End admin dashboard

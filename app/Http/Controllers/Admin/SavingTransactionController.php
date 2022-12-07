@@ -76,7 +76,7 @@ class SavingTransactionController extends Controller
         $txn_data['reference'] = '17' . mt_rand(100000000, 999999999);
         $txn_data['status'] = 'successful';
         $txn_data['fee'] = $fee;
-        $txn_data['balance'] = $balance - $request->amount;
+        $txn_data['balance'] = $balance - $total;
 
 
         SavingTransaction::create($txn_data)->account()->decrement('account_balance', $total);

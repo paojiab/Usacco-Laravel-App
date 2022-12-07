@@ -187,6 +187,18 @@
                  Cashflow
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{route('profit.loss')}}">
+                  <span data-feather="file-text" class="align-text-bottom"></span>
+                 Profit/Loss
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{route('balance.sheet')}}">
+                  <span data-feather="file-text" class="align-text-bottom"></span>
+                 Balance Sheet
+                </a>
+              </li>
           <li class="nav-item">
             <a class="nav-link" href="{{route('admin.statistics')}}">
               <span data-feather="file-text" class="align-text-bottom"></span>

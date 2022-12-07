@@ -32,7 +32,7 @@ class AccountsController extends Controller
             'name' => $firstName . " " . $lastName
         ]);
 
-        return redirect('admin/accounts')->with('status', 'Account verified successfully');
+        return redirect()->back()->with('status', 'Account verified successfully');
     }
 
     public function reject($id) {
@@ -40,7 +40,7 @@ class AccountsController extends Controller
             'status' => 'rejected'
         ]);
 
-        return redirect('admin/accounts')->with('status', 'Account rejected successfully');
+        return redirect()->back()->with('status', 'Account rejected successfully');
     }
 
     public function update(Request $request, $id)
@@ -78,7 +78,7 @@ class AccountsController extends Controller
 
         Account::find($id)->update($fields);
 
-        return redirect('admin/accounts')->with('status', 'Account details updated successfully!');
+        return redirect()->back()->with('status', 'Account details updated successfully!');
 
     }
 

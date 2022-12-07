@@ -67,7 +67,7 @@ class LoanController extends Controller
         $fields['balance'] = $loanBalance;
 
         Loan::find($id)->update($fields);
-        return redirect()->route('admin.loans')->with('status', 'Loan Approved and funds Disbursed successfully');
+        return redirect()->back()->with('status', 'Loan Approved and funds Disbursed successfully');
     }
 
     public function update(Request $request, $id){
@@ -97,6 +97,6 @@ class LoanController extends Controller
         }
 
         Loan::find($id)->update($fields);
-        return redirect()->route('admin.loans')->with('status', 'Loan restructured successfully');
+        return redirect()->back()->with('status', 'Loan restructured successfully');
     }
 }

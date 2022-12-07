@@ -14,4 +14,12 @@ class FinanceController extends Controller
     public function monthlyCashflow(){
         return view('admin.monthly_cashflow');
     }
+
+    public function profitLoss(){
+        return view('admin.profit-loss');
+    }
+
+    public function balanceSheet(){
+        return view('admin.balance-sheet');
+    }
 }
