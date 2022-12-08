@@ -226,32 +226,7 @@
         <div class="row">
           <div class="col-lg-4"></div>
           <div class="col-lg-8 text-end">
-            <h4>10</h4>
-            <p>Monthly Emails</p>
-          </div>
-        </div>
-
-        <div class="text-end">
-          <button class="btn btn-primary btn-sm">Send Email</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-  
-
- 
-</div>
-
-<div class="row mt-4 mb-5">
-  <div class="col-lg-4">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-4"></div>
-          <div class="col-lg-8 text-end">
-            <h4>10</h4>
+            <h4>0</h4>
             <p>SMS Credits</p>
           </div>
         </div>
@@ -262,7 +237,9 @@
       </div>
     </div>
   </div>
+
 </div>
+
 
 <div class="modal" tabindex="-1" id="user" aria-labelledby="userLabel" aria-hidden="true">
   <div class="modal-dialog">
