@@ -136,7 +136,7 @@
         </div>
 
         <div class="text-end">
-          <button class="btn btn-secondary btn-sm">Repay</button>
+          <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#repay">Repay</button>
         </div>
       </div>
     </div>
@@ -764,6 +764,41 @@
   @else 
   <p>No Loan Products available</p>
   @endunless
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" id="repay" aria-labelledby="repayLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Loan Repay</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{route('dashboard.repay')}}" method="post">
+          @csrf 
+         
+              
+          <label for="loan_id" class="form-label">Loan ID</label>
+          <input type="number" name="loan_id" id="" class="form-control">
+          @error('loan_id')
+              <p class="text-danger">{{$message}}</p>
+          @enderror
+          
+                  <label for="amount" class="form-label">Amount</label>
+                  <input type="number" name="amount" id="" class="form-control">
+                  @error('amount')
+                      <p class="text-danger">{{$message}}</p>
+                  @enderror
+             
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-secondary">Repay</button>
+      </div>
+  </form>
     </div>
   </div>
 </div>

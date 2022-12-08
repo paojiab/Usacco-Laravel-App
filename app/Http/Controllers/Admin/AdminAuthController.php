@@ -33,7 +33,10 @@ class AdminAuthController extends Controller
         $shareProductCount = $shareProducts->count();
         $welfareProducts = WelfareProduct::all();
         $welfareProductCount = $welfareProducts->count();
-        $openLoans = Loan::where('status', 'Open')->get()->count();
+        $openLoans = Loan::where('status', 'Open')
+        ->orWhere('status','Restructured')
+        ->orWhere('status','Defaulted')
+        ->get()->count();
         $defaultedLoans = Loan::where('status','Defaulted')->get()->count();
         $loansPendingReviewCount = Loan::where('status','Pending')->get()->count();
         $loanPrdoucts = LoanProduct::all();

@@ -59,16 +59,14 @@ class LoansController extends Controller
 
     public function repay(Request $request, $id){
         $request->validate([
-            'amount' => 'required'
+            'amount' => 'required|gt:0'
         ]);
         $loan = Loan::find($id);
         if ($request->amount > auth()->user()->wallet) {
             return redirect()->back()->with('status', 'Insufficient balance, Add funds to wallet to continue');
         } else if ($request->amount > $loan->balance) {
             return redirect()->back()->with('status', 'Amount should be less or equal to loan balance');
-        } else if ($request->amount <= 0){
-            return redirect()->back()->with('status', 'Amount should be greater than zero');
-        } else{
+        }else{
 
         $loan->user->decrement('wallet', $request->amount);
         $loan->decrement('balance', $request->amount);

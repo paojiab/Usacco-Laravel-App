@@ -213,5 +213,6 @@ Route::get('dashboard/loans/pending',[DashboardController::class,'loanPending'])
 Route::post('dashboard/shares',[DashboardController::class,'shares'])->name('dashboard.shares')->middleware('admin');
 Route::post('dashboard/welfare',[DashboardController::class,'welfare'])->name('dashboard.welfare')->middleware('admin');
 Route::post('dashboard/loans',[DashboardController::class,'newLoan'])->name('dashboard.loans')->middleware('admin');
+Route::post('dashboard/repay',[DashboardController::class,'repay'])->name('dashboard.repay')->middleware('admin');
 Route::post('dashboard/notifications',[DashboardController::class,'notification'])->name('dashboard.notification')->middleware('admin');
 // End admin dashboard

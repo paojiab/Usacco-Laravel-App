@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Loan;
 use App\Models\LoanProduct;
+use App\Models\LoanTransaction;
 use App\Models\SavingTransaction;
 use App\Models\Share;
 use App\Models\ShareProduct;
@@ -38,7 +39,7 @@ class DashboardController extends Controller
     public function deposit(Request $request){
         $txn_data = $request->validate([
             'account_no' => ['required', 'exists:accounts,acct_no'],
-            'amount' => 'required'
+            'amount' => 'required|gt:0'
         ]);
 
         $account = Account::where('acct_no', $txn_data['account_no'])->first();
@@ -61,7 +62,7 @@ class DashboardController extends Controller
     {
         $txn_data = $request->validate([
             'account_no' => ['required', 'exists:accounts,acct_no'],
-            'amount' => 'required'
+            'amount' => 'required|gt:0'
         ]);
 
         $amount = $request->amount;
@@ -156,7 +157,7 @@ class DashboardController extends Controller
         $fields = $request->validate([
             'user_id' => 'required',
             'share_product_id' => 'required',
-            'amount' => 'required'
+            'amount' => 'required|gt:0'
         ]);
 
         $shareProduct = ShareProduct::find($fields['share_product_id']);
@@ -170,7 +171,7 @@ class DashboardController extends Controller
         $fields = $request->validate([
             'user_id' => 'required',
             'welfare_product_id' => 'required',
-            'amount' => 'required'
+            'amount' => 'required|gt:0'
         ]);
         
         Welfare::create($fields);
@@ -211,6 +212,31 @@ class DashboardController extends Controller
         return redirect()->back()->with('status', 'Loan opened successfully');
     }
 
+    public function repay(Request $request) {
+        $request->validate([
+            'loan_id' => ['required', 'exists:loans,id'],
+            'amount' =>'required|gt:0'
+        ]);
+
+        $loan = Loan::find($request->loan_id);
+
+        if ($request->amount > $loan->balance) {
+            return redirect()->back()->with('status', 'UGX ' . $request->amount . ' is greater than Loan balance UGX ' . $loan->balance . '.');
+        }else{
+
+        $loan->decrement('balance', $request->amount);
+
+        $txn_data['txn_type'] = 'Loan Repayment';
+        $txn_data['user_id'] = $loan->user->id;
+        $txn_data['amount'] = $request->amount;
+        
+        $txn_data['loan_id'] = $loan->id;
+        $txn_data['balance'] = $loan->balance;
+        LoanTransaction::create($txn_data);
+        return redirect()->back()->with('status', 'Loan repayment of UGX ' . $request->amount . ' for Loan ID (' . $loan->id . ') completed successfully. Loan balance is UGX ' . $loan->balance);
+        }
+    }
+
     public function loanPending(){
         $loans = Loan::where('status', 'Pending')->get();
         return view('admin.loan-pending',compact('loans'));
@@ -223,4 +249,5 @@ class DashboardController extends Controller
         Notification::send($users, new DashboardNotification($message));
         return redirect()->back()->with('status', 'Notification successfully sent to all Users');
     }
+
 }
