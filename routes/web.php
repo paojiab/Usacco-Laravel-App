@@ -83,42 +83,42 @@ Route::get('/wallet', [WalletController::class, 'index'])->name('wallet')->middl
 
 Route::get('accounts/create', [AccountController::class, 'index'])->name('accounts.create')->middleware('auth');
 
-Route::post('accounts/store', [AccountController::class, 'store'])->name('accounts.store');
+Route::post('accounts/store', [AccountController::class, 'store'])->middleware('auth')->name('accounts.store');
 
 Route::get('notifications',[NotificationsController::class,'index'])->name('notifications')->middleware('auth');
-Route::post('notifications/clear-all',[NotificationsController::class,'clearAll'])->name('clear.all');
-Route::post('notifications/read-all',[NotificationsController::class,'readAll'])->name('read.all');
-Route::post('mark/read/{id}',[NotificationsController::class,'markRead'])->name('mark.read');
-Route::post('remove/{id}',[NotificationsController::class,'remove'])->name('remove');
-Route::post('unread/{id}',[NotificationsController::class,'unread'])->name('unread');
+Route::post('notifications/clear-all',[NotificationsController::class,'clearAll'])->middleware('auth')->name('clear.all');
+Route::post('notifications/read-all',[NotificationsController::class,'readAll'])->middleware('auth')->name('read.all');
+Route::post('mark/read/{id}',[NotificationsController::class,'markRead'])->middleware('auth')->name('mark.read');
+Route::post('remove/{id}',[NotificationsController::class,'remove'])->middleware('auth')->name('remove');
+Route::post('unread/{id}',[NotificationsController::class,'unread'])->middleware('auth')->name('unread');
 
 // Admin Saving Products
 Route::get('saving/product',[SavingProductsController::class, 'index'])->name('saving.products')->middleware('admin');
-Route::post('saving/product/store',[SavingProductsController::class,'store'])->name('product.store');
-Route::post('saving-product/delete/{id}',[SavingProductsController::class,'destroy'])->name('product.delete');
+Route::post('saving/product/store',[SavingProductsController::class,'store'])->middleware('admin')->name('product.store');
+Route::post('saving-product/delete/{id}',[SavingProductsController::class,'destroy'])->middleware('admin')->name('product.delete');
 // End Admin Saving Products
 
 // Admin Accounts
-Route::get('admin/accounts',[AccountsController::class,'index'])->name('admin.accounts');
-Route::get('/accounts/show/{id}',[AccountsController::class,'show'])->name('account.show');
-Route::post('/account/verify/{id}',[AccountsController::class,'verify'])->name('account.verify');
-Route::post('/account/reject/{id}',[AccountsController::class,'reject'])->name('account.reject');
-Route::post('/account/update/{id}',[AccountsController::class,'update'])->name('account.update');
-Route::post('/account/close/{id}',[AccountsController::class,'destroy'])->name('account.close');
-Route::get('/account/new/{id}',[AccountsController::class,'new'])->name('account.new');
-Route::post('/account/create/{user_id}',[AccountsController::class,'create'])->name('account.create');
+Route::get('admin/accounts',[AccountsController::class,'index'])->middleware('admin')->name('admin.accounts');
+Route::get('/accounts/show/{id}',[AccountsController::class,'show'])->middleware('admin')->name('account.show');
+Route::post('/account/verify/{id}',[AccountsController::class,'verify'])->middleware('admin')->name('account.verify');
+Route::post('/account/reject/{id}',[AccountsController::class,'reject'])->middleware('admin')->name('account.reject');
+Route::post('/account/update/{id}',[AccountsController::class,'update'])->middleware('admin')->name('account.update');
+Route::post('/account/close/{id}',[AccountsController::class,'destroy'])->middleware('admin')->name('account.close');
+Route::get('/account/new/{id}',[AccountsController::class,'new'])->middleware('admin')->name('account.new');
+Route::post('/account/create/{user_id}',[AccountsController::class,'create'])->middleware('admin')->name('account.create');
 // End Admin Accounts
 
 // Admin Saving transactions
-Route::get('admin/saving-txns/{id}',[SavingTransactionController::class,'show'])->name('admin.saving.txns');
-Route::post('admin/savings/deposit/{id}',[SavingTransactionController::class, 'deposit'])->name('admin.savings.deposit');
-Route::post('admin/savings/withdraw/{id}',[SavingTransactionController::class, 'withdraw'])->name('admin.savings.withdraw');
-Route::post('admin/savings/transfer/{id}',[SavingTransactionController::class, 'transfer'])->name('savings.transfer');
+Route::get('admin/saving-txns/{id}',[SavingTransactionController::class,'show'])->middleware('admin')->name('admin.saving.txns');
+Route::post('admin/savings/deposit/{id}',[SavingTransactionController::class, 'deposit'])->middleware('admin')->name('admin.savings.deposit');
+Route::post('admin/savings/withdraw/{id}',[SavingTransactionController::class, 'withdraw'])->middleware('admin')->name('admin.savings.withdraw');
+Route::post('admin/savings/transfer/{id}',[SavingTransactionController::class, 'transfer'])->middleware('admin')->name('savings.transfer');
 // End admin saving transaction
 
 // User transactions
-Route::post('/user/deposit', [DepositController::class, 'initialize'])->name('user.savings.deposit');
-Route::post('/user/withdraw', [WithdrawController::class, 'withdraw'])->name('user.savings.withdraw');
+Route::post('/user/deposit', [DepositController::class, 'initialize'])->middleware('auth')->name('user.savings.deposit');
+Route::post('/user/withdraw', [WithdrawController::class, 'withdraw'])->middleware('auth')->name('user.savings.withdraw');
 Route::get('/savings/stat/{id}', [SavingsStatController::class, 'convert'])->name('savings.stat')->middleware('auth');
 Route::get('/savings/month/{id}', [SavingsStatController::class, 'month'])->name('savings.month')->middleware('auth');
 Route::get('/savings/quarter/{id}', [SavingsStatController::class, 'quarter'])->name('savings.quarter')->middleware('auth');
@@ -126,37 +126,37 @@ Route::get('/savings/half/{id}', [SavingsStatController::class, 'half'])->name('
 // End user transactions
 
 // Admin users
-Route::get('admin/users',[UsersController::class,'index'])->name('admin.users');
-Route::get('/admin/users/show/{id}',[UsersController::class,'show'])->name('member');
-Route::get('/admin/users/transact/{id}',[UsersController::class,'transact'])->name('transact');
-Route::get('/admin/users/register',[UsersController::class,'register'])->name('admin.users.register');
-Route::post('/admin/users/register',[UsersController::class,'store'])->name('admin.users.store');
-Route::get('/admin/savings/stat/{id}', [SavingsStatController::class, 'adminConvert'])->name('admin.savings.stat');
-Route::get('/admin/savings/month/{id}', [SavingsStatController::class, 'adminMonth'])->name('admin.savings.month');
-Route::get('/admin/savings/quarter/{id}', [SavingsStatController::class, 'adminQuarter'])->name('admin.savings.quarter');
-Route::get('/admin/savings/half/{id}', [SavingsStatController::class, 'adminHalf'])->name('admin.savings.half');
-Route::get('admin/users/profile/{id}',[ProfileController::class,'show'])->name('admin.users.profile');
-Route::post('admin/users/profile/store/{id}',[ProfileController::class,'store'])->name('user.profile.store');
-Route::get('admin/users/closed/{id}',[ProfileController::class,'closed'])->name('closed');
-Route::post('admin/users/account/restore/{id}',[ProfileController::class,'restore'])->name('restore');
+Route::get('admin/users',[UsersController::class,'index'])->middleware('admin')->name('admin.users');
+Route::get('/admin/users/show/{id}',[UsersController::class,'show'])->middleware('admin')->name('member');
+Route::get('/admin/users/transact/{id}',[UsersController::class,'transact'])->middleware('admin')->name('transact');
+Route::get('/admin/users/register',[UsersController::class,'register'])->middleware('admin')->name('admin.users.register');
+Route::post('/admin/users/register',[UsersController::class,'store'])->middleware('admin')->name('admin.users.store');
+Route::get('/admin/savings/stat/{id}', [SavingsStatController::class, 'adminConvert'])->middleware('admin')->name('admin.savings.stat');
+Route::get('/admin/savings/month/{id}', [SavingsStatController::class, 'adminMonth'])->middleware('admin')->name('admin.savings.month');
+Route::get('/admin/savings/quarter/{id}', [SavingsStatController::class, 'adminQuarter'])->middleware('admin')->name('admin.savings.quarter');
+Route::get('/admin/savings/half/{id}', [SavingsStatController::class, 'adminHalf'])->middleware('admin')->name('admin.savings.half');
+Route::get('admin/users/profile/{id}',[ProfileController::class,'show'])->middleware('admin')->name('admin.users.profile');
+Route::post('admin/users/profile/store/{id}',[ProfileController::class,'store'])->middleware('admin')->name('user.profile.store');
+Route::get('admin/users/closed/{id}',[ProfileController::class,'closed'])->middleware('admin')->name('closed');
+Route::post('admin/users/account/restore/{id}',[ProfileController::class,'restore'])->middleware('admin')->name('restore');
 // End admin users
 
 // Admin Shares
 Route::get('share/products',[ShareController::class, 'index'])->middleware('admin')->name('share.products');
-Route::post('share/products/store',[ShareController::class,'store'])->name('share.store');
+Route::post('share/products/store',[ShareController::class,'store'])->middleware('admin')->name('share.store');
 // End admin shares
 
 // user shares
-Route::post('shares/buy',[SharesController::class, 'buy'])->name('buy');
+Route::post('shares/buy',[SharesController::class, 'buy'])->middleware('auth')->name('buy');
 Route::get('shares/show/{id}',[SharesController::class, 'show'])->name('share.show')->middleware('auth');
-Route::post('shares/sell',[SharesController::class, 'sell'])->name('sell');
+Route::post('shares/sell',[SharesController::class, 'sell'])->middleware('auth')->name('sell');
 // end user shares
 
 // wallet
 
-Route::post('/wallet/deposit', [WalletController::class, 'deposit'])->name('wallet.deposit');
+Route::post('/wallet/deposit', [WalletController::class, 'deposit'])->middleware('auth')->name('wallet.deposit');
 Route::get('/wallet/deposit/callback', [WalletController::class, 'depositCallback'])->name('wallet.deposit.callback')->middleware('auth');
-Route::post('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
+Route::post('/wallet/withdraw', [WalletController::class, 'withdraw'])->middleware('auth')->name('wallet.withdraw');
 Route::get('/wallet/withdraw/callback/{id}', [WalletController::class, 'withdrawCallback'])->name('wallet.withdraw.callback')->middleware('auth');
 Route::get('/wallet/statement', [WalletTransactionsController::class, 'convert'])->name('wallet.statement')->middleware('auth');
 Route::get('/wallet/month', [WalletTransactionsController::class, 'month'])->name('wallet.month')->middleware('auth');
@@ -166,34 +166,34 @@ Route::get('/wallet/half', [WalletTransactionsController::class, 'half'])->name(
 
 // Admin welfare Products
 Route::get('welfare/products',[WelfareProductController::class, 'index'])->middleware('admin')->name('welfare.products');
-Route::post('welfare/products/store',[WelfareProductController::class,'store'])->name('welfare.store');
+Route::post('welfare/products/store',[WelfareProductController::class,'store'])->middleware('admin')->name('welfare.store');
 // End admin welfare products
 
 // User welfare
-Route::post('/welfare/contribute', [WelfareController::class, 'contribute'])->name('contribute');
+Route::post('/welfare/contribute', [WelfareController::class, 'contribute'])->middleware('auth')->name('contribute');
 // end user wallfare
 
 // Admin loan products
-Route::get('admin/loan/products', [LoanProductController::class, 'index'])->name('loan.products');
-Route::post('admin/loan/products',[LoanProductController::class, 'store'])->name('loan.products.store');
+Route::get('admin/loan/products', [LoanProductController::class, 'index'])->middleware('admin')->name('loan.products');
+Route::post('admin/loan/products',[LoanProductController::class, 'store'])->middleware('admin')->name('loan.products.store');
 // end admin loan products
 
 // User loans
-Route::post('loan/store',[LoansController::class, 'store'])->name('loan.store');
-Route::get('show/loan/{id}',[LoansController::class, 'show'])->name('loan.show');
-Route::post('loan/repay/{id}',[LoansController::class, 'repay'])->name('loan.repay');
+Route::post('loan/store',[LoansController::class, 'store'])->middleware('auth')->name('loan.store');
+Route::get('show/loan/{id}',[LoansController::class, 'show'])->middleware('auth')->name('loan.show');
+Route::post('loan/repay/{id}',[LoansController::class, 'repay'])->middleware('auth')->name('loan.repay');
 // End user loans
 
 // admin loans
 Route::get('admin/loans', [LoanController::class,'index'])->name('admin.loans')->middleware('admin');
 Route::get('admin/loans/edit/{id}', [LoanController::class,'edit'])->name('loan.review')->middleware('admin');
-Route::post('admin/loan/store/{id}', [LoanController::class,'store'])->name('loan.approve');
-Route::post('admin/loan/update/{id}', [LoanController::class,'update'])->name('loan.restructure');
+Route::post('admin/loan/store/{id}', [LoanController::class,'store'])->middleware('admin')->name('loan.approve');
+Route::post('admin/loan/update/{id}', [LoanController::class,'update'])->middleware('admin')->name('loan.restructure');
 // end admin loans
 
 // Admin finances
 Route::get('admin/finances',[FinanceController::class,'index'])->name('admin.finances')->middleware('admin');
-Route::get('monthly/cashflow',[FinanceController::class,'monthlyCashflow'])->name('monthly.cashflow');
+Route::get('monthly/cashflow',[FinanceController::class,'monthlyCashflow'])->middleware('admin')->name('monthly.cashflow');
 Route::get('admin/profit/loss',[FinanceController::class,'profitLoss'])->middleware('admin')->name('profit.loss');
 Route::get('admin/balance-sheet',[FinanceController::class,'balanceSheet'])->middleware('admin')->name('balance.sheet');
 
