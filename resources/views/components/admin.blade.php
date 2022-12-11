@@ -153,12 +153,7 @@
               Loans
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{route('admin.loans')}}">
-              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-              Collateral Register
-            </a>
-          </li>
+         
           
         </ul>
 
@@ -169,6 +164,18 @@
           </a>
         </h6>
         <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.statistics')}}">
+              <span data-feather="file-text" class="align-text-bottom"></span>
+              Statistics
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text" class="align-text-bottom"></span>
+              Charts
+            </a>
+          </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file-text" class="align-text-bottom"></span>
@@ -199,18 +206,8 @@
                  Balance Sheet
                 </a>
               </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{route('admin.statistics')}}">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              Statistics
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              Charts
-            </a>
-          </li>
+         
+          
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="file-text" class="align-text-bottom"></span>
