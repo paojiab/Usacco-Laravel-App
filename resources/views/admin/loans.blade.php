@@ -40,7 +40,7 @@
               @else 
               <td class="text-center">-</td>
               @endunless
-             <td><a href="{{route('loan.review', $loan->id)}}" class="btn btn-warning btn-sm">Review</a></td>
+             <td><a href="{{route('loans.edit', $loan->id)}}" class="btn btn-warning btn-sm">Review</a></td>
             </tr>
             @endforeach
           </tbody>

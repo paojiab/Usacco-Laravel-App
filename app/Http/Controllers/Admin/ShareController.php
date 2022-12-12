@@ -15,7 +15,7 @@ class ShareController extends Controller
 
     public function store(Request $request){
         $fields = $request->validate([
-            'name' => 'required',
+            'name' => ['required','string','max:255'],
             'price' => 'required',
             'minimum' => 'required'
         ]);

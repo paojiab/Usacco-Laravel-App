@@ -42,11 +42,11 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form action="{{route('share.store')}}" method="post">
+                  <form action="{{route('shares.store')}}" method="post">
                     @csrf 
                     <label for="name" class="form-label">Name</label>
                     <input name="name" type="text" class="form-control" placeholder="Enter name of new shares product">
-                    @error('type')
+                    @error('name')
                         <p class="text-danger">{{$message}}</p>
                     @enderror
                     <div class="row">
@@ -58,9 +58,9 @@
                             @enderror
                         </div>
                         <div class="col-lg-6">
-                            <label for="selling_fee" class="form-label">Selling Fee(%)</label>
-                            <input type="number" name="selling_fee" id="" class="form-control">
-                            @error('selling_fee')
+                            <label for="minimum" class="form-label">Selling Fee(%)</label>
+                            <input type="number" name="minimum" id="" class="form-control">
+                            @error('minimum')
                                 <p class="text-danger">{{$message}}</p>
                             @enderror
                         </div>

@@ -16,6 +16,7 @@ class LoanController extends Controller
         return view('admin.loans',compact('loans'));
     }
 
+    // ----------- Review Loan ----------------------
     public function edit($id){
         $loan = Loan::find($id);
         return view('admin.loan-review',compact('loan'));
@@ -70,6 +71,7 @@ class LoanController extends Controller
         return redirect()->back()->with('status', 'Loan Approved and funds Disbursed successfully');
     }
 
+    // --------------- Restructure Loan ------------------
     public function update(Request $request, $id){
         $fields = $request->validate([
             'title' => 'required',

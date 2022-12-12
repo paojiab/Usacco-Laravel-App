@@ -29,10 +29,10 @@
                       <a href="{{route('admin.saving.txns',$account->id)}}" class="btn btn-success btn-sm">View</a>
                   </td>
                     <td>
-                        <a href="/accounts/show/{{$account->id}}" class="btn btn-warning btn-sm">Review</a>
+                        <a href="{{route('account.show', $account->id)}}" class="btn btn-warning btn-sm">Review</a>
                     </td>
                     <td>
-                        <form action="/account/close/{{$account->id}}" method="post">
+                        <form action="{{route('account.close', $account->id)}}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm">Close</button>
                         </form>

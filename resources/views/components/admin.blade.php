@@ -129,13 +129,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{route('share.products')}}">
+            <a class="nav-link" href="{{route('shares.index')}}">
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
               Share Products
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{route('welfare.products')}}">
+            <a class="nav-link" href="{{route('welfare.index')}}">
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
               Welfare Product
             </a>
@@ -148,7 +148,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{route('admin.loans')}}">
+            <a class="nav-link" href="{{route('loans.index')}}">
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
               Loans
             </a>

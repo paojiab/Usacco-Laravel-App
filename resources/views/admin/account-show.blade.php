@@ -2,7 +2,7 @@
     <div class="container text-center mt-5">
       @if ($account->status == 'pending' || $account->status == 'rejected') 
      
-        <form action="/account/verify/{{$account->id}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('account.verify', $account->id)}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-6">
@@ -142,13 +142,13 @@
         <button type="submit" class="btn btn-warning mt-5 mb-4">Verify Account</button>
         </form>
 
-        <form action="/account/reject/{{$account->id}}" method="post">
+        <form action="{{route('account.reject', $account->id)}}" method="post">
             @csrf 
             <button type="submit" class="btn btn-danger mb-5">Reject Account</button>
         </form>
 
         @else 
-        <form action="/account/update/{{$account->id}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('account.update', $account->id)}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-6">

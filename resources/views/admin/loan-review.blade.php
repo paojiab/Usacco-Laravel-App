@@ -2,7 +2,7 @@
     <div class="container text-center mt-5">
       @if ($loan->status == 'Pending' || $loan->status == 'Rejected') 
      
-        <form action="{{route('loan.approve',$loan->id)}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('loans.store',$loan->id)}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-6">
@@ -101,7 +101,7 @@
 
         {{-- ###################### If loan is open ######################################### --}}
         @else 
-        <form action="{{route('loan.restructure', $loan->id)}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('loans.update', $loan->id)}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-6">
