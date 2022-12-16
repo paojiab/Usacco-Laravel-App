@@ -1,3 +1,4 @@
+<h1>ABOUT</h1>
 USACCO is a Laravel application, still under development, designed specifically for microfinance institutions in Uganda. With USACCO, customers can easily open accounts, deposit and withdraw funds, and receive notifications about their transactions. They can also track their transactions and view their account history, helping them to manage their finances more effectively.
 
 For administrators, USACCO provides a range of management tools, including the ability to register new customers, view statistics on account activity and transactions, and carry out transactions on behalf of customers. This allows administrators to efficiently manage the institution's accounts and ensure that customers have access to the services they need.
