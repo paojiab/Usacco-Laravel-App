@@ -7,5 +7,5 @@ USACCO is a user-friendly and intuitive application, with a sleek and modern des
 
 <h3>CREDENTIALS</h3>
 <h5>Admin</h5>
-Login: /admin/login
-Register: /admin/register
+Login: /admin/login <br>
+Register: /admin/register <br>
