@@ -17,10 +17,12 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
     />
     <title>USACCO</title>
+    @livewireStyles
+    @vite('resources/js/app.js')
   </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     {{-- Navbar --}}
-    <nav class="navbar navbar-expand-lg" style="background-color: #4b7be5">
+    <nav class="navbar navbar-expand-lg bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand text-white" href="{{route('dashboard')}}">USACCO</a>
         <button
@@ -74,43 +76,44 @@
         </>
       </div>
       {{-- Notifications --}}
-      @unless(count(auth()->user()->unreadNotifications) == 0)
       <div class="position-relative me-2">
-      <a class="nav-link text-white me-2 ms-3" href="{{route('notifications')}}"
+      <a class="nav-link text-white me-2 ms-3" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button"
           >Notifications
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-          @if(count(auth()->user()->unreadNotifications) > 99)) 
-            99+
-          @else 
-            {{count(auth()->user()->unreadNotifications)}}
-          @endif
-        </span>
+         <livewire:notification-count />
       </a>
     </div>
-    @else
-    <a class="nav-link text-white me-2 ms-3" href="{{route('notifications')}}">Notifications</a>
-    @endunless
     {{-- End notifications --}}
           @else
           <a class="nav-link text-white me-3" href="{{route('login')}}"
           >Signin</a>
           @endauth
-          
         </div>
         
       </div>
     </nav>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        @auth
+        <livewire:notifications />
+        @endauth
+      </div>
+    </div>
+    {{-- End notifications --}}
     {{-- End Navbar --}}
 
     @if (session('status'))
-            <div class="container alert alert-success mt-3" role="alert">
+            <div class="alert alert-success rounded-0" role="alert">
                 {{ session('status') }}
             </div>
         @endif
 
     {{$slot}}
 
-    <footer class="text-white p-2 text-center fixed-bottom" style="background-color: #4b7be5;">
+    <footer class="text-white p-2 text-center mt-auto bg-primary">
       &copy; USACCO  <script>
         document.write(new Date().getFullYear())
     </script>. All rights reserved.
@@ -122,5 +125,6 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
+    @livewireScripts
   </body>
 </html>

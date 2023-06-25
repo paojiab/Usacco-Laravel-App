@@ -16,7 +16,7 @@ class WithdrawController extends Controller
 {
     public function withdraw(Request $request){
         $request->validate([
-            'amount' => 'required'
+            'amount' => 'required|numeric|gte:500'
         ]);
 
         $amount = $request->amount;
@@ -30,8 +30,6 @@ class WithdrawController extends Controller
         $actual_bal = $balance - $min_bal;
         if ($total > $actual_bal){
             return redirect()->route('savings',$id)->with('status', 'Insufficient funds');
-        }else if($amount<=0){
-            return redirect()->route('savings',$id)->with('status', 'Amount should be greater than zero');
         } else {
 
             $txn_data['amount'] = $amount;
