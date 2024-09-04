@@ -14,8 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::table('saving_transactions',function(Blueprint $table){
-            $table->dropColumn('reference');
-            $table->dropColumn('status');
+            /** mysql
+            * $table->dropColumn('reference');
+            * $table->dropColumn('status');
+            */
+            // sqlite
+            $table->dropColumn(['reference','status']);
         });
     }
 
